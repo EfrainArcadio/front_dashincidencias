@@ -48,7 +48,7 @@ export default function EditFallaForm({ data, idFalla }: EditFallaFormProps) {
          <nav className="my-5 ">
           <Link
             className=" bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
-            to='/'
+            to='/fallas'
           >Volver al Catalogo</Link>
         </nav>
 
@@ -57,12 +57,10 @@ export default function EditFallaForm({ data, idFalla }: EditFallaFormProps) {
           onSubmit={handleSubmit(handleForm)}
           noValidate
         >
-
           <FallaForm
             register={register}
             errors={errors}
           />
-
           <input
             type="submit"
             value='Guardar Cambios'
