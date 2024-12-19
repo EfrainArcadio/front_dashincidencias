@@ -52,7 +52,7 @@ export default function CreateCorredorView() {
         <nav className="my-5 ">
           <Link
             className=" bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
-            to='/'
+            to={`/integrador/${empresaId}`}
           >Volver a Inicio</Link>
         </nav>
 

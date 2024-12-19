@@ -5,7 +5,7 @@ import TaskList from "@/components/tasks/TaskList";
 import EditTaskData from "@/components/tasks/EditTaskData";
 import TaskModalDetails from "@/components/tasks/TaskModalDetails";
 import { useAuth } from "@/hooks/useAuth";
-import { TypeAccountVerify } from "@/utils/policies";
+import { isJUDCV, TypeAccountVerify } from "@/utils/policies";
 import { useMemo } from "react";
 import { getFullCorredor } from "@/api/EmpresaAPI";
 
@@ -21,15 +21,15 @@ export default function CorredorDetailsView() {
     queryFn: () => getFullCorredor(empresaId),
     retry: false,
   });
-  console.log(data)
-  const canEdit = useMemo(() => data?.manager === user?._id, [data, user]);
-  if (isLoading && authLoading) return "Cargando...";
-  if (isError) return <Navigate to="/404" />;
+
+  const canEdit = useMemo(() => data?.manager === user?._id, [data, user])
+  if (isLoading && authLoading) return "Cargando..."
+  if (isError) return <Navigate to="/404" />
   if (data && user)
     return (
       <>
-        <nav className="my-5 flex gap-3">
-          {TypeAccountVerify( user?.account, "Administrador") && (
+        <nav className="my-10 flex flex-col space-y-1 sm:flex-row sm:space-y-0 sm:justify-between md:justify-start md:space-x-4 text-center">
+          {isJUDCV(user?.email) && (
             <>
               <Link
                 className=" bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
@@ -45,7 +45,7 @@ export default function CorredorDetailsView() {
               </Link>
             </>
           )}
-          {TypeAccountVerify( user?.account, "Integrador") && (
+          {TypeAccountVerify(user?.account, "Integrador") && (
             <>
               <Link
                 className=" bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
@@ -55,7 +55,7 @@ export default function CorredorDetailsView() {
               </Link>
             </>
           )}
-          {TypeAccountVerify( user?.account, "Corredor") && (
+          {TypeAccountVerify(user?.account, "Corredor") && (
             <>
               <Link
                 className=" bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
@@ -65,13 +65,15 @@ export default function CorredorDetailsView() {
               </Link>
             </>
           )}
-          {TypeAccountVerify( user?.account, "Supervisor") && (
+          {TypeAccountVerify(user?.account, "Supervisor") && (
             <>
-                    <button
-                        type="button"
-                        className="bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
-                        onClick={() => navigate(location.pathname + '?newTask=true')}
-                    >Agregar Incidencia</button>
+              <button
+                type="button"
+                className="bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
+                onClick={() => navigate(location.pathname + "?newTask=true")}
+              >
+                Agregar Incidencia
+              </button>
             </>
           )}
         </nav>
