@@ -24,15 +24,12 @@ export default function TaskModalDetails() {
   const taskId = queryParams.get("viewTask")!;
 
   const show = taskId ? true : false;
-  console.log(taskId)
   const { data, isError, error } = useQuery({
     queryKey: ["task", taskId],
     queryFn: () => getTaskById({ empresaId, taskId }),
     enabled: !!taskId,
     retry: false,
   });
-  console.log(data) 
-
 
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
@@ -57,7 +54,6 @@ export default function TaskModalDetails() {
     toast.error(error.message, { toastId: "error" });
     return <Navigate to={`/corredor/${empresaId}`} />;
   }
-
   if (data)
     return (
       <>
