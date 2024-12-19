@@ -16,7 +16,7 @@ export default function DashboardCorredores() {
     queryFn: () => getCorredoresByIdIntegrador(empresaId),
     retry: false,
   });
-
+  console.log(data)
   if (isLoading && authLoading) return "Cargando...";
   if (data && user)
     return (
