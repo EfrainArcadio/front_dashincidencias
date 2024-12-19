@@ -1,13 +1,11 @@
 import api from "@/lib/axios"
-import { Integrador, dashboardIntegradorSchema,  CorredorFormData, corredorSchema, Corredor, userSchemaManager, User,  Empresa,  editEmpresaSchema, EmpresaFormData,  fullCorredorSchema, dashboardCorredorSchema } from "../types"
+import { Integrador, dashboardIntegradorSchema,  CorredorFormData,  Corredor, userSchemaManager, User,  Empresa,  editEmpresaSchema, EmpresaFormData,  corredorSchema, dashboardCorredorSchema } from "../types"
 import { isAxiosError } from "axios"
 
 /** Integradores */
 export async function createIntegrador(formData: EmpresaFormData) {
-  console.log(formData)
   try {
     const { data } = await api.post('/empresa/integrador', formData)
-    console.log(data)
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -18,9 +16,7 @@ export async function createIntegrador(formData: EmpresaFormData) {
 export async function getIntegradores() {
   try {
     const { data } = await api('/empresa/integradores')
-    console.log(data)
     const response = dashboardIntegradorSchema.safeParse(data)
-    console.log(response)
     if (response.success) {
       return response.data
     }
@@ -79,9 +75,7 @@ export async function getManagerByEmpresaId(empresaId: Integrador['_id']) {
 export async function getCorredoresByIdIntegrador(empresaId: Corredor['_id']) {
   try {
     const { data } = await api(`/empresa/integrador/${empresaId}`)
-    console.log(data)
-    const response = corredorSchema.safeParse(data)
-    console.log(response)
+    const response = dashboardCorredorSchema.safeParse(data)
     if (response.success) {
       return response.data
     }
@@ -95,9 +89,7 @@ export async function getCorredoresByIdIntegrador(empresaId: Corredor['_id']) {
 export async function getFullCorredor(empresaId: Corredor['_id']) {
   try {
     const { data } = await api(`/empresa/corredor/${empresaId}`)
-    console.log(data)
-    const response = fullCorredorSchema.safeParse(data)
-    console.log(response)
+    const response = corredorSchema.safeParse(data)
     if (response.success) {
       return response.data
     }
@@ -136,17 +128,3 @@ export async function updateManager({ empresaId, id,account }: { empresaId: Corr
   }
 }
 
-// export async function getEmpresaByUser(userId: User['_id']) {
-//   try {
-//     const { data } = await api(`/empresa/user/${userId}`)
-//     const response = idIntegradorSchema.safeParse(data)
-//     // console.log(response)
-//     if(response.success) {
-//         return response.data
-//     }
-//   } catch (error) {
-//     if (isAxiosError(error) && error.response) {
-//       throw new Error(error.response.data.error)
-//     }
-//   }
-// }
