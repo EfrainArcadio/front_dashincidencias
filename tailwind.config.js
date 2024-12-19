@@ -8,6 +8,8 @@ export default {
     screens: {
       'ssm': '320px',
       // => @media (min-width: 320px) { ... }
+      'ms': '385px',
+      // => @media (min-width: 385px) { ... }
       'sm': '640px',
       // => @media (min-width: 640px) { ... }
 
