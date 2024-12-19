@@ -18,7 +18,7 @@ export default function DashboardIntegradores() {
   if (isLoading && authLoading) return 'Cargando...'
   if (data && user) return (
     <>
-      <nav className="my-10 flex space-x-1 ">
+      <nav className="my-10 flex flex-col space-y-1 sm:flex-row sm:space-y-0 sm:justify-between text-center">
         <Link
           className=" bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
           to='/integrador/create'
@@ -33,16 +33,16 @@ export default function DashboardIntegradores() {
         </Link>
       </nav>
       {data.length ? (
-        <ul role="list" className="flex flex-col lg:flex-wrap lg:flex-row lg:space-x-1">
+        <ul role="list" className="ssm:grid ssm:grid-flow-row sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
           {data.map((integrador) => (
-            <li key={integrador._id} className="flex justify-between gap-x-4 px-3 py-5 bg-white divide-gray-100 border border-gray-100 mt-2 shadow-white shadow-sm lg:max-w-xs lg:flex">
-              <div className="flex flex-col min-w-0 gap-x-4">
-                <div className="min-w-0 flex-auto space-y-2">
+            <li key={integrador._id} className="flex justify-between gap-x-4 px-3 py-5 bg-white divide-gray-100 border border-gray-100 mt-2 shadow-white shadow-sm sm:w-[260px] md:w-[310px ] lg:w-[320px] xl:w-[330px]">
+              <div className="flex flex-col gap-x-4">
+                <div className=" flex-auto space-y-2">
                   <Link to={`/integrador/${integrador._id}`}
                     className="text-gray-600 cursor-pointer hover:underline text-3xl font-bold"
                   >{integrador.empresaName}</Link>
                 </div>
-                <div className="flex min-w-0 gap-x-4">
+                <div className="flex gap-x-4">
                   <p className='text-gray-500'> Corredores: {integrador.workSpace.length}</p>
                 </div>
               </div>
