@@ -140,7 +140,8 @@ export const unidadSchema = z.object({
 export const dashboardUnidadSchema = z.array(
   unidadSchema.pick({
     _id: true,
-    economico: true
+    economico: true,
+    active: true
   })
 )
 export const editUnidadSchema = unidadSchema.pick({
