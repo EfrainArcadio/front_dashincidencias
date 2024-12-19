@@ -38,6 +38,12 @@ export const userSchema = authSchema.pick({
 }).extend({
   _id: z.string()
 })
+export const userTaskSchema = authSchema.pick({
+  name: true,
+  email: true,
+}).extend({
+  _id: z.string()
+})
 export const userSchemaAuth = authSchema.pick({
   name: true,
   email: true,
@@ -111,7 +117,6 @@ export const empresaSchema = z.object({
   createdBy: z.string(userSchema.pick({ _id: true })),
   team: z.array(z.string(userSchema.pick({ _id: true }))),
   perfil: perfilEmpresaSchema
-  
 })
 export const getIdEmpresa = empresaSchema.pick({
   _id: true
@@ -123,13 +128,14 @@ export const editEmpresaSchema = empresaSchema.pick({
 
 export type Empresa = z.infer<typeof empresaSchema>
 export type EmpresaFormData = Pick<Empresa, 'empresaName' | 'perfil'>
-// export type idEmpresa = Pick<Empresa, '_id' >
+
 
 /** Unidad */
 export const unidadSchema = z.object({
   _id: z.string(),
   economico: z.string(),
   empresa: z.string(empresaSchema.pick({ _id: true })),
+  active: z.boolean()
 })
 export const dashboardUnidadSchema = z.array(
   unidadSchema.pick({
@@ -157,11 +163,11 @@ export const taskSchema = z.object({
   status: taskStatusSchema,
   completedBy: z.array(z.object({
     _id: z.string(),
-    user: userSchema,
+    user: userTaskSchema,
     status: taskStatusSchema
   })),
   notes: z.array(noteSchema.extend({
-    createdBy: userSchema
+    createdBy: userTaskSchema
   })),
   createdAt: z.string(),
   updatedAt: z.string()
@@ -199,19 +205,8 @@ export const dashboardIntegradorSchema = z.array(
     manager: true
   })
 )
-export const idIntegradorSchema = z.array(
-  integradorSchema.pick({
-    _id: true,
-
-  })
-)
-
-export const corredorByIdIntegradorSchema = integradorSchema.pick({
-  workSpace: true
-})
 
 export type Integrador = z.infer<typeof integradorSchema>
-
 export type EditIntegradorFormData = Pick<Integrador, 'empresaName'>
 
 /** Corredor */
@@ -220,17 +215,7 @@ export const corredorSchema = z.object({
   empresaName: z.string(),
   manager: z.string(userSchema.pick({ _id: true })),
   team: z.array(z.string(userSchema.pick({ _id: true }))),
-  tasks: z.array(taskSchema),
-  workSpace: z.array(z.string(unidadSchema.pick({ _id: true }))),
-  createdBy: z.string(userSchema.pick({ _id: true })),
-  perfil: perfilEmpresaSchema
-})
-export const fullCorredorSchema = z.object({
-  _id: z.string(),
-  empresaName: z.string(),
-  manager: z.string(userSchema.pick({ _id: true })),
-  team: z.array(z.string(userSchema.pick({ _id: true }))),
-  tasks: z.array(taskSchema),
+  tasks: z.array(taskCorredorSchema),
   workSpace: z.array(z.string(unidadSchema.pick({ _id: true }))),
   createdBy: z.string(userSchema.pick({ _id: true })),
   perfil: perfilEmpresaSchema
@@ -240,18 +225,19 @@ export const dashboardCorredorSchema = z.array(
   corredorSchema.pick({
     _id: true,
     empresaName: true,
+    manager: true,
     tasks: true,
     workSpace: true,
-    createdBy: true
+    createdBy: true,
   })
 )
+
 export const editcorredorSchema = corredorSchema.pick({
   empresaName: true
 })
 
 export type Corredor = z.infer<typeof corredorSchema>
 export type CorredorFormData = Pick<Integrador, 'empresaName' | 'perfil'>
-
 
 /** Team */
 const teamMemberSchema = userSchema.pick({
@@ -261,6 +247,7 @@ const teamMemberSchema = userSchema.pick({
   account: true,
   _id: true
 })
+
 export const teamMembersSchema = z.array(teamMemberSchema)
 export type TeamMember = z.infer<typeof teamMemberSchema>
 export type TeamMemberForm = Pick<TeamMember, 'email'>
