@@ -20,7 +20,6 @@ export default function EditFallaForm({ data, idFalla }: EditFallaFormProps) {
       category: data.category
     }
   })
-
   const queryClient = useQueryClient()
 
   const { mutate } = useMutation({
@@ -45,7 +44,7 @@ export default function EditFallaForm({ data, idFalla }: EditFallaFormProps) {
   return (
     <>
       <div className="max-w-3xl mx-auto space-y-6">
-        <h1 className="text-5xl font-black text-gray-300 ">Editar {data.name}</h1>
+        <h1 className="text-3xl font-black text-gray-300 ">Editar: <span className='text-2xl'> {data.name}</span> </h1>
          <nav className="my-5 ">
           <Link
             className=" bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
